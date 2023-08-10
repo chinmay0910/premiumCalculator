@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="PremiumCalculatorStyle.css">
+    <link rel="stylesheet" href="quoteStyle.css">
+    <title>Get Quote</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <h1>LOGO</h1>
+            <div class="navbar">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <button class="QuoteBtn" type="button"  onclick = "window.location.href='/quote'">Get Quote</button>
+            </div>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <form method="post" action="/quote">
+            <div class="m-10" id="form">
+                    <div class="products">
+                        <p>Product</p>
+                        <select name="Ins_product" id="Ins_product" required>
+                            <option value="">-- Select Type Plan --</option>
+                            <option value="Comprehensive">Star Comprehensive Plan</option>
+                            <option value="Assured">Star Assured Plan</option>
+                            <option value="Arogya">Star Arogya Plan</option>
+                        </select>
+                    </div>
+                    <hr>
+                    
+                <span class="span">Basic Details:</span>
+                <div class="m-5" id="Info_form">
+                    <div class="inputs mt-4">
+                        <label for="name">Name of Person</label>
+                        <input class="input_text1" id="Name" name="name" type="text" placeholder="Enter your Name:">
+                    </div>
+                    <div class="inputs mt-4">
+                        <label for="family_Size">Family Size</label>
+                        <select class="inp" name="family_Size" id="family_Size" required>
+                            <option value="">SELECT SIZE</option>
+                            <option value="1A">1A</option>
+                            <option value="2A">2A</option>
+                            <option value="1A+1C">1A+1C</option>
+                            <option value="1A+2C">1A+2C</option>
+                            <option value="1A+3C">1A+3C</option>
+                            <option value="2A+1C">2A+1C</option>
+                            <option value="2A+2C">2A+2C</option>
+                            <option value="2A+3C">2A+3C</option>
+                        </select>
+                    </div>
+                    <div class="inputs mt-4">
+                        <label for="date">D.O.B of Eldest Member</label>
+                        <input class="input_text" type="date" id="Date" name="date" required>
+                    </div>
+                    <!-- <div class="inputs mt-4">
+                        <label for="noOfAdults">No. of Adults</label>
+                        <select class="inp" name="noOfAdults" id="noOfAdults" required>
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                    </div>
+                    <div class="inputs mt-4">
+                        <label for="noOfChilds">No. of Childs</label>
+                        <select class="inp" name="noOfChilds" id="noOfChilds" required>
+                            <option value=""></option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div> -->
+                    <div class="inputs mt-4">
+                        <label for="sumassured">Sum Assured</label>
+                        <select class="inp" name="sumassured" id="sumassured" required>
+                            <option value="5 Lac">5 lakh</option>
+                            <option value="10">10 lakh</option>
+                            <option value="15">15 lakh</option>
+                            <option value="20">20 lakh</option>
+                            <option value="25">25 lakh</option>
+                            <option value="50">50 lakh</option>
+                            <option value="75">75 lakh</option>
+                            <option value="100">100 lakh</option>
+                        </select>
+                    </div>
+                    <!-- <div class="inputs mt-4 dropdown-check-list" id="list1">
+                        <label class="anchor" for="items">Select Fruits</label>
+                        <span class="anchor">Select Fruits</span>
+                        <ul class="inp items">
+                            <li><input type="checkbox" name="Comprehensive" value="Comprehensive">Comprehensive</li>
+                            <li><input type="checkbox" name="Assured" value="Assured">Star Assured</li>
+                            <li><input type="checkbox" name="Arogya" value="Arogya">Arogya-Sanjivani</li>
+                        </ul>
+
+                    </div> -->
+                </div>
+                <button class="QuoteBtn" type="submit" id="Calculate" onclick="floater_fn()">Calculate</button>
+            </form>
+        </div>
+    </div>
+
+    <%if(data != null){%> 
+        <div class="container">
+            <table cellspacing="0" style="border: 1px solid black; overflow: auto;">
+                <thead>
+                    <tr>
+                        <th>Sum Assured</th>
+                        <th><%=data[0].planName%></th>
+                        <th><%=data[1].planName%></th>
+                        <th><%=data[2].planName%></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td><h3>5 Lakh</h3></td>
+                        <td><%=(data[0].lacFIVE)%></td>
+                        <td><%=(data[1].lacFIVE)%></td>
+                        <td><%=(data[2].lacFIVE)%></td>
+                    </tr>
+                    <tr>
+                        <td><h3>10 Lakh</h3></td>
+                        <td><%=data[0].lacTEN%></td>
+                        <td><%=data[1].lacTEN%></td>
+                        <td><%=data[2].lacTEN%></td>
+                    </tr>
+                    <tr>
+                        <td><h3>15 Lakh</h3></td>
+                        <td><%=data[0].lacFIFTEEN%></td>
+                        <td><%=data[1].lacFIFTEEN%></td>
+                        <td><%=data[2].lacFIFTEEN%></td>
+                    </tr>
+                    <tr>
+                        <td><h3>25 Lakh</h3></td>
+                        <td><%=data[0].lacTWENTYFIVE%></td>
+                        <td><%=data[1].lacTWENTYFIVE%></td>
+                        <td><%=data[2].lacTWENTYFIVE%></td>
+                    </tr>
+                    <tr>
+                        <td><h3>50 Lakh</h3></td>
+                        <td><%=data[0].lacFIFTY%></td>
+                        <td><%=data[1].lacFIFTY%></td>
+                        <td><%=data[2].lacFIFTY%></td>
+                    </tr>
+                    <tr>
+                        <td><h3>100 Lakh</h3></td>
+                        <td><%=data[0].lacHUNDRED%></td>
+                        <td><%=data[1].lacHUNDRED%></td>
+                        <td><%=data[2].lacHUNDRED%></td>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="/download">
+                <button class="QuoteBtn" id="myBtn">Download</button>
+            </form>
+        </div>
+    <%}%>
+     <!-- lacFIVE -->
+     <!-- lacTEN -->
+     <!-- lacFIFTEEN -->
+     <!-- lacTWENTYFIVE -->
+     <!-- lacFIFTY -->
+     <!-- lacHUNDRED -->
+    <script type="module" src="quote.js"></script>
+</body>
+</html>
