@@ -20,7 +20,7 @@ app.set('view engine','ejs');
 // app.set('views',path.join(__dirname,'views')); 
 
 // let d = new Date();
-console.log(__dirname);
+// console.log(__dirname);
 app.get('/',(req,res)=>{
     res.render('index')
 })
@@ -29,7 +29,7 @@ app.get('/quote',(req,res)=>{
     res.render('quote.ejs',{data:null});
 })
 
-let DATA,dob,family_Size,NAME,PLANNAME,SUMASSURED,planNameforFile;
+let DATA,dob,family_Size,NAME,PLANNAME,SUMASSURED,Age;
 app.post('/quote',async (req,res)=>{
     try {
         dob = req.body.date;
@@ -38,7 +38,7 @@ app.post('/quote',async (req,res)=>{
         var day = Number(dob.substr(8, 2));
 
         let today = new Date();
-        let Age = today.getFullYear() - year;
+        Age = today.getFullYear() - year;
         if(today.getMonth() < month || (today.getMonth() == month && today.getDate()<day)){
             Age--;
         }
@@ -49,9 +49,9 @@ app.post('/quote',async (req,res)=>{
         SUMASSURED = req.body.sumassured;
         // let planName = "Arogya"
         DATA = await sampleData.find({"planType": family_Size,'ageStart':{$lte: Age},'ageEnd':{$gte: Age}});
-        planNameforFile = await sampleData.findOne({"planName": PLANNAME}); // this was made to get a particular tupple
+        // planNameforFile = await sampleData.findOne({"planName": PLANNAME}); // this was made to get a particular tupple
         // console.log(DATA);
-        console.log(planNameforFile);
+        // console.log(planNameforFile);
         res.status(200).render('quote.ejs',{data: DATA});
     } catch (error) {
         res.status(404).send(error);
@@ -93,11 +93,33 @@ app.get('/download',async (req,res)=>{
         const premiumPlan2Name50 = form.getTextField('premiumPlan2Name50lac');
         const premiumPlan2Name100 = form.getTextField('premiumPlan2Name100lac');
 
+        let planBuffer = await sampleData.findOne({"planName": PLANNAME, "planType": family_Size,'ageStart':{$lte: Age},'ageEnd':{$gte: Age}});
+        console.log("Plan Details as on Input: ");
+        console.log(planBuffer);
+        if (SUMASSURED == '5 Lakh') {
+            premium.setText(planBuffer.lacFIVE);
+        }
+        else if(SUMASSURED == '10 Lakh'){
+            premium.setText(planBuffer.lacTEN);
+        }
+        else if (SUMASSURED == '15 Lakh') {
+            premium.setText(planBuffer.lacFIFTEEN);
+        }
+        else if (SUMASSURED == '25 Lakh') {
+            premium.setText(planBuffer.lacTWENTYFIVE);
+        }
+        else if (SUMASSURED == '50 Lakh') {
+            premium.setText(planBuffer.lacFIFTY);
+        }
+        else {
+            premium.setText(planBuffer.lacHUNDRED);
+        }
+
         nameField.setText(NAME);
         plannameField.setText(PLANNAME);
         sumassured.setText(SUMASSURED);
         familySize.setText(DATA[0].planType);
-        premium.setText(DATA[0].lacFIVE);
+        
 
         // COMPARISON VALUES SET
         premiumPlanName0.setText(DATA[0].planName);
@@ -122,9 +144,10 @@ app.get('/download',async (req,res)=>{
         premiumPlan2Name50.setText(DATA[2].lacFIFTY);
         premiumPlan2Name100.setText(DATA[2].lacHUNDRED);
 
-        const modifiedPdfBytes = await pdfDoc.save()
+        const modifiedPdfBytes = await pdfDoc.save();
         fs.writeFileSync('template.pdf', modifiedPdfBytes);
         var file =fs.readFileSync('template.pdf');
+        
         res.contentType("application/pdf");
         res.send(file);
         // res.status(200).render('quote.ejs',{data: null});
