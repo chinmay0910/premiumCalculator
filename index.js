@@ -61,7 +61,7 @@ app.post('/quote',async (req,res)=>{
 app.get('/download',async (req,res)=>{
     try {
         // console.log(SUMASSURED);
-        const pdfBytes = fs.readFileSync('template_form.pdf');
+        const pdfBytes = fs.readFileSync('newForm1.pdf');
         const pdfDoc = await PDFDocument.load(pdfBytes);
         const form = pdfDoc.getForm();
     
@@ -92,10 +92,9 @@ app.get('/download',async (req,res)=>{
         const premiumPlan2Name25 = form.getTextField('premiumPlan2Name25lac');
         const premiumPlan2Name50 = form.getTextField('premiumPlan2Name50lac');
         const premiumPlan2Name100 = form.getTextField('premiumPlan2Name100lac');
-
+        
+        // For Selecting Particular Plan...
         let planBuffer = await sampleData.findOne({"planName": PLANNAME, "planType": family_Size,'ageStart':{$lte: Age},'ageEnd':{$gte: Age}});
-        console.log("Plan Details as on Input: ");
-        console.log(planBuffer);
         if (SUMASSURED == '5 Lakh') {
             premium.setText(planBuffer.lacFIVE);
         }
@@ -143,6 +142,30 @@ app.get('/download',async (req,res)=>{
         premiumPlan2Name25.setText(DATA[2].lacTWENTYFIVE);
         premiumPlan2Name50.setText(DATA[2].lacFIFTY);
         premiumPlan2Name100.setText(DATA[2].lacHUNDRED);
+
+        // paragraphs
+        const roomRent = form.getTextField('roomRent');
+        const maternity = form.getTextField('maternity');
+        const checkUp = form.getTextField('healthCheckup');
+        const NoclaimBonus = form.getTextField('NoClaimBonus');
+        const coverRestoration = form.getTextField('coverRestoration');
+        const cashBenifit = form.getTextField('cashAllowance');
+        const coPay = form.getTextField('coPay');
+        const dayCare = form.getTextField('dayCare');
+
+        let planDetails = await sampleData.findOne({"planType": "info", "planName":PLANNAME});
+        // console.log(planDetails);
+
+        roomRent.setText(planDetails.roomRent);
+        maternity.setText(planDetails.maternity);
+        checkUp.setText(planDetails.checkUp);
+        NoclaimBonus.setText(planDetails.noClaimBonus);
+        coverRestoration.setText(planDetails.coveRestoration);
+        cashBenifit.setText(planDetails.cashBenefit);
+        coPay.setText(planDetails.copay);
+        dayCare.setText(planDetails.moreInfo);
+
+        form.flatten();
 
         const modifiedPdfBytes = await pdfDoc.save();
         fs.writeFileSync('template.pdf', modifiedPdfBytes);

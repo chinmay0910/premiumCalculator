@@ -12,6 +12,14 @@ const dataSchema = new mongoose.Schema({
     "lacTWENTYFIVE": String,
     "lacFIFTY": String,
     "lacHUNDRED": String,
+    "roomRent": String,
+    "maternity": String,
+    "checkUp": String,
+    "noClaimBonus": String,
+    "coveRestoration": String,
+    "cashBenefit": String,
+    "moreInfo": String,
+    "copay": String
 })
 
 // Collection
