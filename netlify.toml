@@ -1,0 +1,3 @@
+[build]
+    base = "index"
+    command = "npm run build"
