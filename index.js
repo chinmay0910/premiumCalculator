@@ -6,6 +6,7 @@ require('./src/db/conn');
 const sampleData = require("./src/models/users");
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
+let PORT = process.env.PORT || 3000;
 // const mod = require("./public/quote");
 
 let staticPath = path.join(__dirname,'public');
@@ -181,6 +182,6 @@ app.get('/download',async (req,res)=>{
 })
 
 
-app.listen(200,()=>{
+app.listen(PORT,()=>{
     console.log('Port Working...');
 })
