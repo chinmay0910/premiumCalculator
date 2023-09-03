@@ -15,12 +15,10 @@ let staticPath = path.join(__dirname,'public');
 app.use(express.static(staticPath)); // For serving static files
 app.use(express.urlencoded());
 
-
 // EJS Specific Code
 app.set('view engine','ejs');
 // app.set('views',path.join(__dirname,'views')); 
 
-// let d = new Date();
 // console.log(__dirname);
 app.get('/',(req,res)=>{
     res.render('index')
@@ -183,5 +181,5 @@ app.get('/download',async (req,res)=>{
 
 
 app.listen(PORT,()=>{
-    console.log('Port Working...');
+    console.log(`Port Working on ${PORT}...`);
 })

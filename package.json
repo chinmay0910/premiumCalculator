@@ -4,7 +4,7 @@
   "description": "This is Premium Calculator Website Code",
   "main": "index.js",
   "scripts": {
-    "build": "node index.js"
+    "start": "node index.js"
   },
   "author": "Chinmay Bhai",
   "license": "ISC",
