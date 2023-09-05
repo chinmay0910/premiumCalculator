@@ -59,8 +59,12 @@ app.post('/quote',async (req,res)=>{
 
 app.get('/download',async (req,res)=>{
     try {
+        let filepath = path.join(process.cwd(), 'newForm1.pdf');
+        // console.log(filepath);
         // console.log(SUMASSURED);
-        const pdfBytes = fs.readFileSync('newForm1.pdf');
+
+        // const pdfBytes = fs.readFileSync('newForm1.pdf');
+        const pdfBytes = fs.readFileSync(filepath);
         const pdfDoc = await PDFDocument.load(pdfBytes);
         const form = pdfDoc.getForm();
     
