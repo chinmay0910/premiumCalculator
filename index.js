@@ -10,7 +10,7 @@ let PORT = process.env.PORT || 3000;
 // const mod = require("./public/quote");
 
 let staticPath = path.join(__dirname,'public');
-console.log(staticPath);
+// console.log(staticPath);
 // Express Specific Code
 app.use(express.static(staticPath)); // For serving static files
 app.use(express.urlencoded());
@@ -168,10 +168,18 @@ app.get('/download',async (req,res)=>{
 
         const modifiedPdfBytes = await pdfDoc.save();
         fs.writeFileSync('template.pdf', modifiedPdfBytes);
-        var file =fs.readFileSync('template.pdf');
-        
+        var file = fs.createReadStream('template.pdf');
+
+        res.setHeader('Content-Disposition', 'attachment; filename="Quotation.pdf"');
         res.contentType("application/pdf");
-        res.send(file);
+
+        file.pipe(res);
+
+        file.on('error', (error) => {
+            console.error('Error streaming file:', error);
+            res.status(500).send('Internal Server Error');
+          });
+        // res.send(file);
         // res.status(200).render('quote.ejs',{data: null});
 
     } catch (error) {
