@@ -10,14 +10,14 @@ let PORT = process.env.PORT || 3000;
 // const mod = require("./public/quote");
 
 let staticPath = path.join(__dirname,'public');
-
+console.log(staticPath);
 // Express Specific Code
 app.use(express.static(staticPath)); // For serving static files
 app.use(express.urlencoded());
 
 // EJS Specific Code
 app.set('view engine','ejs');
-// app.set('views',path.join(__dirname,'views')); 
+app.set('views',path.join(__dirname,'views')); 
 
 // console.log(__dirname);
 app.get('/',(req,res)=>{
