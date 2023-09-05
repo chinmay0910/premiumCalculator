@@ -1,9 +1,9 @@
 {
     "version": 2,
-    "buiild":[
+    "builds":[
         {
             "src": "./index.js",
-            "use": "@ver/node"
+            "use": "@vercel/node"
         }
     ],
     "routes":[
