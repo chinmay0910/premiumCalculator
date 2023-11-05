@@ -170,18 +170,19 @@ app.get('/download',async (req,res)=>{
         form.flatten();
 
         const modifiedPdfBytes = await pdfDoc.save();
-        fs.writeFileSync('template.pdf', modifiedPdfBytes);
-        var file = fs.createReadStream('template.pdf');
+        // fs.writeFileSync('template.pdf', modifiedPdfBytes);
+        // var file = fs.createReadStream('template.pdf');
 
         res.setHeader('Content-Disposition', 'attachment; filename="Quotation.pdf"');
         res.contentType("application/pdf");
 
-        file.pipe(res);
+        // file.pipe(res);
+        res.send(modifiedPdfBytes);
 
-        file.on('error', (error) => {
+        /* file.on('error', (error) => {
             console.error('Error streaming file:', error);
             res.status(500).send('Internal Server Error');
-          });
+          }); */
         // res.send(file);
         // res.status(200).render('quote.ejs',{data: null});
 
