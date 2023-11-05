@@ -176,13 +176,13 @@ app.get('/download',async (req,res)=>{
         res.setHeader('Content-Disposition', 'attachment; filename="Quotation.pdf"');
         res.contentType("application/pdf");
 
+        res.end(modifiedPdfBytes);
         // file.pipe(res);
-        res.send(modifiedPdfBytes);
 
-        /* file.on('error', (error) => {
-            console.error('Error streaming file:', error);
-            res.status(500).send('Internal Server Error');
-          }); */
+        // file.on('error', (error) => {
+        //     console.error('Error streaming file:', error);
+        //     res.status(500).send('Internal Server Error');
+        //   });
         // res.send(file);
         // res.status(200).render('quote.ejs',{data: null});
 
