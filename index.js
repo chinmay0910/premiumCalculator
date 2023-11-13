@@ -119,7 +119,7 @@ app.get('/download',async (req,res)=>{
         nameField.setText(NAME);
         plannameField.setText(PLANNAME);
         sumassured.setText(SUMASSURED);
-        familySize.setText(DATA[0].planType);
+        familySize.setText(family_Size);
         
 
         // COMPARISON VALUES SET
