@@ -173,7 +173,7 @@ app.get('/download',async (req,res)=>{
         // fs.writeFileSync('template.pdf', modifiedPdfBytes);
         // var file = fs.createReadStream('template.pdf');
 
-        res.setHeader('Content-Disposition', 'attachment; filename="Quotation.pdf"');
+        res.setHeader('Content-Disposition', `attachment; filename="${NAME}_Quotation.pdf"`);
         res.contentType("application/pdf");
 
         res.end(modifiedPdfBytes);
